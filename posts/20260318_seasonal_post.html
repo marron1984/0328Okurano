@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大嵓埜 ― 春、仕込みの手仕事と桜のあしらい</title>
+  <style>
+    :root {
+      --sakura: #f8e8e0;
+      --sakura-accent: #d4929b;
+      --warm-brown: #5c3d2e;
+      --cream: #faf6f0;
+      --text: #3a2e26;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+      background-color: var(--cream);
+      color: var(--text);
+      line-height: 1.9;
+    }
+
+    /* ── ヘッダー ── */
+    .header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(180deg, var(--sakura) 0%, var(--cream) 100%);
+    }
+    .header .date {
+      font-size: 0.85rem;
+      color: var(--sakura-accent);
+      letter-spacing: 0.3em;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+    .header .subtitle {
+      font-size: 0.95rem;
+      color: #8a7060;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── メインコンテンツ ── */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+    }
+
+    /* ── 写真グリッド ── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 36px 0;
+    }
+    .photo-grid .photo-slot {
+      aspect-ratio: 4 / 3;
+      background-color: #efe8e0;
+      border: 1px solid #e0d6cc;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-grid .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-grid .photo-slot .placeholder {
+      text-align: center;
+      color: #b8a898;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+    .photo-grid .photo-slot .placeholder .icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .photo-grid .wide {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 9;
+    }
+
+    /* ── テキストセクション ── */
+    .section {
+      margin: 40px 0;
+    }
+    .section h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--sakura-accent);
+      letter-spacing: 0.2em;
+      border-left: 3px solid var(--sakura-accent);
+      padding-left: 14px;
+      margin-bottom: 18px;
+    }
+    .section p {
+      font-size: 0.95rem;
+      text-align: justify;
+      margin-bottom: 14px;
+    }
+
+    /* ── 引用風テキスト ── */
+    .seasonal-quote {
+      text-align: center;
+      padding: 36px 20px;
+      margin: 40px 0;
+      background-color: var(--sakura);
+      border-radius: 6px;
+    }
+    .seasonal-quote p {
+      font-size: 1.15rem;
+      letter-spacing: 0.15em;
+      color: var(--warm-brown);
+      text-align: center;
+    }
+    .seasonal-quote .small {
+      font-size: 0.8rem;
+      color: #a08878;
+      margin-top: 10px;
+    }
+
+    /* ── フッター ── */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.8rem;
+      color: #a09080;
+      border-top: 1px solid #e8e0d8;
+    }
+    .footer .shop-name {
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      margin-bottom: 8px;
+      color: var(--warm-brown);
+    }
+
+    /* ── タグ ── */
+    .tags {
+      margin-top: 24px;
+      text-align: center;
+    }
+    .tags span {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--sakura-accent);
+      margin: 4px 6px;
+    }
+
+    @media (max-width: 520px) {
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid .wide { aspect-ratio: 4 / 3; }
+      .header h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <p class="date">2026.03.18</p>
+    <h1>春を仕込む、桜をあしらう</h1>
+    <p class="subtitle">大嵓埜 ― 弥生の厨房から</p>
+  </header>
+
+  <main class="content">
+
+    <!-- 季節の引用 -->
+    <div class="seasonal-quote">
+      <p>旬を知り、旬を活かし、<br>季節をひと皿に閉じ込める。</p>
+      <p class="small">― 料理は自然との対話 ―</p>
+    </div>
+
+    <!-- セクション：季節のあしらい -->
+    <div class="section">
+      <h2>季節のあしらい ― 桜</h2>
+      <p>
+        三月も半ばを過ぎ、厨房にも春の便りが届きました。
+        今年も塩漬けの桜花、桜葉を丁寧に仕込み、
+        お皿の上にそっと春を添えます。
+      </p>
+      <p>
+        ほのかに香る桜の塩気が、素材の甘みを引き立て、
+        目にも舌にも「春が来た」と感じていただける
+        あしらいを心がけています。
+      </p>
+    </div>
+
+    <!-- 桜あしらい写真 -->
+    <div class="photo-grid">
+      <div class="photo-slot">
+        <!-- 画像差し替え: <img src="../大嵓埜_20260318/季節のあしらい/sakura_01.jpg" alt="桜の塩漬け"> -->
+        <div class="placeholder">
+          <span class="icon">🌸</span>
+          桜の塩漬け<br>sakura_01.jpg
+        </div>
+      </div>
+      <div class="photo-slot">
+        <!-- 画像差し替え: <img src="../大嵓埜_20260318/季節のあしらい/sakura_02.jpg" alt="桜のあしらい"> -->
+        <div class="placeholder">
+          <span class="icon">🌸</span>
+          桜のあしらい<br>sakura_02.jpg
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション：調理シーン・仕込み -->
+    <div class="section">
+      <h2>仕込みの手仕事</h2>
+      <p>
+        旬の食材は、待ってはくれません。
+        届いたその日のうちに下処理を済ませ、
+        素材の持ち味を最大限に引き出す仕込みを行います。
+      </p>
+      <p>
+        ひとつひとつの工程に手を抜かないこと。
+        地味な仕込みの積み重ねが、
+        お客様の前に届く一皿の味を決めると信じています。
+      </p>
+    </div>
+
+    <!-- 調理シーン写真 -->
+    <div class="photo-grid">
+      <div class="photo-slot">
+        <!-- 画像差し替え: <img src="../大嵓埜_20260318/調理シーン/shikomi_01.jpg" alt="仕込み風景"> -->
+        <div class="placeholder">
+          <span class="icon">🔪</span>
+          仕込み風景<br>shikomi_01.jpg
+        </div>
+      </div>
+      <div class="photo-slot">
+        <!-- 画像差し替え: <img src="../大嵓埜_20260318/調理シーン/shikomi_02.jpg" alt="食材の下処理"> -->
+        <div class="placeholder">
+          <span class="icon">🍳</span>
+          食材の下処理<br>shikomi_02.jpg
+        </div>
+      </div>
+    </div>
+
+    <!-- メイン写真（桜 × 調理の組み合わせ） -->
+    <div class="section">
+      <h2>旬を届ける</h2>
+      <p>
+        季節のあしらいと丁寧な仕込み。
+        このふたつが重なるとき、
+        料理は「季節そのもの」になります。
+      </p>
+    </div>
+
+    <div class="photo-grid">
+      <div class="photo-slot wide">
+        <!-- 画像差し替え: <img src="../大嵓埜_20260318/季節のあしらい/sakura_dish.jpg" alt="桜あしらいの一皿"> -->
+        <div class="placeholder">
+          <span class="icon">🍽</span>
+          桜あしらいの一皿（メイン写真）<br>sakura_dish.jpg
+        </div>
+      </div>
+    </div>
+
+    <!-- タグ -->
+    <div class="tags">
+      <span>#大嵓埜</span>
+      <span>#旬を届ける</span>
+      <span>#季節のあしらい</span>
+      <span>#桜</span>
+      <span>#仕込み</span>
+      <span>#春の料理</span>
+      <span>#日本料理</span>
+      <span>#季節感</span>
+      <span>#手仕事</span>
+      <span>#丁寧な暮らし</span>
+    </div>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <p class="shop-name">大 嵓 埜</p>
+    <p>季節を、ひと皿に。</p>
+  </footer>
+
+</body>
+</html>
