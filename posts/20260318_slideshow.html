@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大嵓埜 ― 春のスライドショー</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sakura-light: #fdf2f0;
+      --sakura: #f0c8c8;
+      --sakura-deep: #c97586;
+      --bark: #5c3d2e;
+      --moss: #7a8c6e;
+      --gold: #c8a96e;
+      --cream: #faf6f0;
+      --ink: #2e2420;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Noto Serif JP', serif;
+      overflow: hidden;
+    }
+
+    /* ── 9:16 縦型フレーム ── */
+    .player {
+      position: relative;
+      width: 390px;
+      height: 693px;
+      background: var(--cream);
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    /* ── スライド共通 ── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── フェード＆ズームアニメーション ── */
+    .slide.fade-in  { animation: fadeIn 1.2s ease-out forwards; }
+    .slide.fade-out { animation: fadeOut 1s ease-in forwards; }
+
+    @keyframes fadeIn {
+      0%   { opacity: 0; transform: scale(1.06); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.97); }
+    }
+
+    /* テキスト登場 */
+    .slide .text-up {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .slide.active .text-up {
+      animation: textUp .9s ease-out forwards;
+    }
+    .slide.active .text-up.d1 { animation-delay: .4s; }
+    .slide.active .text-up.d2 { animation-delay: .8s; }
+    .slide.active .text-up.d3 { animation-delay: 1.2s; }
+    .slide.active .text-up.d4 { animation-delay: 1.6s; }
+    .slide.active .text-up.d5 { animation-delay: 2.0s; }
+
+    @keyframes textUp {
+      0%   { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 横線 */
+    .slide .line-grow {
+      width: 0;
+      height: 1px;
+      background: var(--sakura-deep);
+    }
+    .slide.active .line-grow {
+      animation: lineGrow 1.2s ease-out forwards;
+      animation-delay: .6s;
+    }
+    @keyframes lineGrow {
+      to { width: 120px; }
+    }
+
+    /* ── 桜パーティクル ── */
+    .petals {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+    }
+    .petal svg { width: 100%; height: 100%; }
+
+    /* ================================================================
+       SLIDE 0 : オープニング ― 黒背景 + 縦書き
+    ================================================================ */
+    .s0 {
+      background: var(--ink);
+      justify-content: center;
+      gap: 20px;
+    }
+    .s0 .main-title {
+      color: var(--sakura);
+      font-size: 2.0rem;
+      font-weight: 300;
+      letter-spacing: .35em;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      line-height: 2.2;
+    }
+    .s0 .date-label {
+      color: var(--gold);
+      font-size: .75rem;
+      letter-spacing: .5em;
+    }
+
+    /* ================================================================
+       SLIDE 1 : 季節のあしらい ― 桜イメージ
+    ================================================================ */
+    .s1 {
+      background: linear-gradient(170deg, #fef5f3 0%, #f8e0db 40%, var(--sakura) 100%);
+      justify-content: flex-end;
+      padding-bottom: 80px;
+    }
+    .s1 .bg-circle {
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,117,134,.18) 0%, transparent 70%);
+    }
+    .s1 .sakura-icon {
+      position: absolute;
+      top: 110px;
+      font-size: 7rem;
+      opacity: .15;
+    }
+    .s1 .photo-frame {
+      width: 280px;
+      height: 210px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 6px 24px rgba(92,61,46,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .s1 .photo-frame .label {
+      color: #c0a898;
+      font-size: .75rem;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .s1 .photo-frame .label .icon { font-size: 2rem; display: block; margin-bottom: 6px; }
+    .s1 .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .s1 h2 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--sakura-deep);
+      letter-spacing: .25em;
+      margin-bottom: 8px;
+    }
+    .s1 .caption {
+      font-size: .8rem;
+      color: var(--bark);
+      letter-spacing: .1em;
+    }
+
+    /* ================================================================
+       SLIDE 2 : 仕込みの手仕事
+    ================================================================ */
+    .s2 {
+      background: linear-gradient(175deg, #f5f0ea 0%, #e8ddd2 100%);
+      gap: 14px;
+      padding: 50px 30px;
+    }
+    .s2 .row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+    .s2 .img-box {
+      flex: 1;
+      aspect-ratio: 1;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(92,61,46,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .s2 .img-box .label {
+      color: #b8a898;
+      font-size: .7rem;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .s2 .img-box .label .icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .s2 .img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .s2 h2 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--bark);
+      letter-spacing: .2em;
+      margin-top: 10px;
+    }
+    .s2 .body-text {
+      font-size: .82rem;
+      color: #6b5b50;
+      text-align: center;
+      line-height: 2;
+      letter-spacing: .05em;
+    }
+
+    /* ================================================================
+       SLIDE 3 : ポエム ― 旬を届ける
+    ================================================================ */
+    .s3 {
+      background: var(--ink);
+      gap: 16px;
+    }
+    .s3 .poem-line {
+      color: var(--sakura);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: .25em;
+      line-height: 2.4;
+      text-align: center;
+    }
+    .s3 .accent {
+      color: var(--gold);
+      font-size: 1.35rem;
+      letter-spacing: .35em;
+    }
+
+    /* ================================================================
+       SLIDE 4 : メイン写真
+    ================================================================ */
+    .s4 {
+      background: linear-gradient(170deg, #fef8f6 0%, var(--sakura) 100%);
+      gap: 20px;
+      padding: 40px 24px;
+    }
+    .s4 .main-photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(92,61,46,.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .s4 .main-photo .label {
+      color: #c0a898;
+      font-size: .8rem;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .s4 .main-photo .label .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+    .s4 .main-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .s4 .quote {
+      font-size: .9rem;
+      color: var(--bark);
+      letter-spacing: .15em;
+      text-align: center;
+      line-height: 2;
+    }
+
+    /* ================================================================
+       SLIDE 5 : エンディング + タグ
+    ================================================================ */
+    .s5 {
+      background: var(--ink);
+      gap: 14px;
+    }
+    .s5 .shop {
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: .6em;
+    }
+    .s5 .tagline {
+      font-size: .9rem;
+      color: var(--sakura);
+      letter-spacing: .25em;
+    }
+    .s5 .tags {
+      margin-top: 20px;
+      text-align: center;
+      padding: 0 30px;
+    }
+    .s5 .tags span {
+      display: inline-block;
+      font-size: .7rem;
+      color: var(--gold);
+      margin: 3px 5px;
+      letter-spacing: .05em;
+    }
+
+    /* ── コントロール ── */
+    .controls {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.3);
+      border: none;
+      cursor: pointer;
+      transition: all .3s;
+      padding: 0;
+    }
+    .dot.on {
+      background: var(--sakura-deep);
+      transform: scale(1.3);
+    }
+    .play-btn {
+      position: absolute;
+      bottom: 14px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.4);
+      background: rgba(0,0,0,.25);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .play-btn:hover { background: rgba(0,0,0,.45); }
+
+    /* プログレスバー */
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 100;
+      display: flex;
+      gap: 3px;
+      padding: 8px 10px 0;
+    }
+    .progress-seg {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-seg .fill {
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,.8);
+      border-radius: 2px;
+    }
+    .progress-seg.done .fill { width: 100%; }
+    .progress-seg.running .fill {
+      animation: progressFill var(--slide-dur) linear forwards;
+    }
+    @keyframes progressFill {
+      to { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="player" id="player">
+
+  <!-- プログレスバー -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- 桜花びらレイヤー -->
+  <div class="petals" id="petals"></div>
+
+  <!-- ===== SLIDE 0 : オープニング ===== -->
+  <div class="slide s0" data-dur="4500">
+    <p class="date-label text-up d1">二〇二六年 弥生</p>
+    <h1 class="main-title text-up d2">春を仕込む</h1>
+    <div class="line-grow"></div>
+  </div>
+
+  <!-- ===== SLIDE 1 : 桜のあしらい ===== -->
+  <div class="slide s1" data-dur="5500">
+    <div class="bg-circle"></div>
+    <div class="sakura-icon text-up d1">🌸</div>
+    <div class="photo-frame text-up d2">
+      <!-- 差し替え: <img src="../大嵓埜_20260318/季節のあしらい/sakura_01.jpg" alt="桜"> -->
+      <div class="label"><span class="icon">🌸</span>桜の塩漬け<br><small>季節のあしらい</small></div>
+    </div>
+    <h2 class="text-up d3">季節のあしらい</h2>
+    <p class="caption text-up d4">― 桜をそっと、ひと皿に ―</p>
+  </div>
+
+  <!-- ===== SLIDE 2 : 仕込みの手仕事 ===== -->
+  <div class="slide s2" data-dur="5500">
+    <h2 class="text-up d1">仕込みの手仕事</h2>
+    <div class="line-grow"></div>
+    <div class="row text-up d2">
+      <div class="img-box">
+        <!-- 差し替え: <img src="../大嵓埜_20260318/調理シーン/shikomi_01.jpg"> -->
+        <div class="label"><span class="icon">🔪</span>仕込み</div>
+      </div>
+      <div class="img-box">
+        <!-- 差し替え: <img src="../大嵓埜_20260318/調理シーン/shikomi_02.jpg"> -->
+        <div class="label"><span class="icon">🍳</span>下処理</div>
+      </div>
+    </div>
+    <p class="body-text text-up d3">
+      届いたその日に、手を抜かず。<br>
+      地味な仕込みの積み重ねが<br>
+      一皿の味を決める。
+    </p>
+  </div>
+
+  <!-- ===== SLIDE 3 : ポエム ===== -->
+  <div class="slide s3" data-dur="5000">
+    <p class="poem-line text-up d1">旬を知り</p>
+    <p class="poem-line text-up d2">旬を活かし</p>
+    <p class="poem-line accent text-up d3">季節を届ける</p>
+    <div class="line-grow"></div>
+  </div>
+
+  <!-- ===== SLIDE 4 : メイン写真 ===== -->
+  <div class="slide s4" data-dur="5500">
+    <div class="main-photo text-up d1">
+      <!-- 差し替え: <img src="../大嵓埜_20260318/季節のあしらい/sakura_dish.jpg"> -->
+      <div class="label"><span class="icon">🍽</span>桜あしらいの一皿</div>
+    </div>
+    <p class="quote text-up d3">
+      春の息吹を<br>ひと皿に閉じ込めて。
+    </p>
+  </div>
+
+  <!-- ===== SLIDE 5 : エンディング ===== -->
+  <div class="slide s5" data-dur="5000">
+    <p class="shop text-up d1">大嵓埜</p>
+    <p class="tagline text-up d2">季節を、ひと皿に。</p>
+    <div class="line-grow"></div>
+    <div class="tags text-up d4">
+      <span>#大嵓埜</span>
+      <span>#旬を届ける</span>
+      <span>#季節のあしらい</span>
+      <span>#桜</span>
+      <span>#仕込み</span>
+      <span>#春の料理</span>
+      <span>#日本料理</span>
+      <span>#季節感</span>
+      <span>#手仕事</span>
+    </div>
+  </div>
+
+  <!-- ドットナビ -->
+  <div class="controls" id="controls"></div>
+
+  <!-- 再生/一時停止 -->
+  <button class="play-btn" id="playBtn">⏸</button>
+</div>
+
+<script>
+(function () {
+  const slides = [...document.querySelectorAll('.slide')];
+  const total  = slides.length;
+  const bar    = document.getElementById('progressBar');
+  const ctrl   = document.getElementById('controls');
+  const btn    = document.getElementById('playBtn');
+  const petals = document.getElementById('petals');
+
+  let current   = 0;
+  let playing   = true;
+  let timer     = null;
+
+  /* ── プログレスバー生成 ── */
+  slides.forEach(() => {
+    const seg = document.createElement('div');
+    seg.className = 'progress-seg';
+    seg.innerHTML = '<div class="fill"></div>';
+    bar.appendChild(seg);
+  });
+  const segs = [...bar.querySelectorAll('.progress-seg')];
+
+  /* ── ドット生成 ── */
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot';
+    d.addEventListener('click', () => goTo(i));
+    ctrl.appendChild(d);
+  });
+  const dots = [...ctrl.querySelectorAll('.dot')];
+
+  /* ── 桜花びら ── */
+  function spawnPetal () {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    const size = 10 + Math.random() * 14;
+    const x    = Math.random() * 390;
+    const dur  = 4 + Math.random() * 5;
+    const delay = Math.random() * 2;
+    const drift = -40 + Math.random() * 80;
+    el.style.cssText = `
+      left:${x}px; top:-20px; width:${size}px; height:${size}px;
+      animation: petalFall ${dur}s ease-in ${delay}s forwards;
+    `;
+    el.innerHTML = `<svg viewBox="0 0 100 100"><path d="M50 5 C60 30,90 40,50 95 C10 40,40 30,50 5Z" fill="rgba(201,117,134,${0.15 + Math.random()*0.2})"/></svg>`;
+    petals.appendChild(el);
+    setTimeout(() => el.remove(), (dur + delay) * 1000 + 500);
+  }
+
+  /* 花びらアニメーション用キーフレーム */
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes petalFall {
+      0%   { opacity:0; transform:translateY(0) rotate(0deg) translateX(0); }
+      10%  { opacity:.8; }
+      100% { opacity:0; transform:translateY(750px) rotate(${180+Math.random()*180}deg) translateX(${-30+Math.random()*60}px); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  let petalInterval = null;
+  function startPetals () {
+    stopPetals();
+    petalInterval = setInterval(spawnPetal, 500);
+  }
+  function stopPetals () {
+    if (petalInterval) { clearInterval(petalInterval); petalInterval = null; }
+  }
+
+  /* ── スライド遷移 ── */
+  function getDur (i) {
+    return parseInt(slides[i].dataset.dur) || 4000;
+  }
+
+  function show (i) {
+    slides.forEach((s, idx) => {
+      s.classList.remove('active', 'fade-in', 'fade-out');
+      if (idx !== i) s.style.opacity = 0;
+    });
+    slides[i].classList.add('active', 'fade-in');
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+
+    /* プログレス */
+    segs.forEach((seg, idx) => {
+      seg.classList.remove('running', 'done');
+      seg.querySelector('.fill').style.width = '';
+      if (idx < i) seg.classList.add('done');
+    });
+    segs[i].style.setProperty('--slide-dur', getDur(i) + 'ms');
+    /* reflow */
+    void segs[i].offsetWidth;
+    segs[i].classList.add('running');
+
+    /* 桜スライドで花びら */
+    if (i === 1 || i === 3 || i === 4) startPetals();
+    else stopPetals();
+  }
+
+  function next () {
+    const prev = current;
+    slides[prev].classList.remove('fade-in');
+    slides[prev].classList.add('fade-out');
+    current = (current + 1) % total;
+    show(current);
+    scheduleNext();
+  }
+
+  function scheduleNext () {
+    clearTimeout(timer);
+    if (playing) timer = setTimeout(next, getDur(current));
+  }
+
+  function goTo (i) {
+    clearTimeout(timer);
+    current = i;
+    show(i);
+    scheduleNext();
+  }
+
+  /* ── 再生 / 一時停止 ── */
+  btn.addEventListener('click', () => {
+    playing = !playing;
+    btn.textContent = playing ? '⏸' : '▶';
+    if (playing) scheduleNext();
+    else { clearTimeout(timer); segs[current].classList.remove('running'); segs[current].classList.add('done'); }
+  });
+
+  /* ── タップ送り（左右） ── */
+  document.getElementById('player').addEventListener('click', (e) => {
+    if (e.target.closest('.play-btn') || e.target.closest('.dot')) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if (x > rect.width * 0.65) {
+      clearTimeout(timer);
+      current = (current + 1) % total;
+      show(current);
+      scheduleNext();
+    } else if (x < rect.width * 0.35) {
+      clearTimeout(timer);
+      current = (current - 1 + total) % total;
+      show(current);
+      scheduleNext();
+    }
+  });
+
+  /* ── 初期表示 ── */
+  show(0);
+  scheduleNext();
+})();
+</script>
+
+</body>
+</html>
